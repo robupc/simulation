@@ -157,13 +157,13 @@ class Node:
         bonus = 0
         for child in self.children:
             if child.active:
-                bonus += child.calculate_product_free_bonus(bonus_pf) * 0.15
+                bonus += child.calculate_riseup_binary_bonus(bonus_pf) * 0.15
                 for grandchild in child.children:
                     if grandchild.active:
-                        bonus += grandchild.calculate_product_free_bonus(bonus_pf) * 0.05
+                        bonus += grandchild.calculate_riseup_binary_bonus(bonus_pf) * 0.05
                         for great_grandchild in grandchild.children:
                             if great_grandchild.active:
-                                bonus += great_grandchild.calculate_product_free_bonus(bonus_pf) * 0.05
+                                bonus += great_grandchild.calculate_riseup_binary_bonus(bonus_pf) * 0.05
         return int(bonus)
 
     def calculate_car_bonus(self) -> int:
@@ -261,7 +261,7 @@ def create_nodes_deterministic(layer_config: List[int], fixed_positions: List[in
     """
     nodes = []
     node_counter = 1
-    layer_nodes = {0: []}
+    layer_nodes: Dict[int, List[Node]] = {0: []}
     
     # ルート層（層0）の作成
     for i in range(layer_config[0]):
